@@ -13,13 +13,10 @@ const Task = (initialTitle) => {
     let category = null; //we need to create category object
 
     //Create Read and Update Dekete functions
-    const getTitle = () => {return title;}
+    const getTitle = () => (title);
     const setTitle = newTitle => {title = newTitle;}
-    
-    const getDescription = () => {return description;}
-    const setDescription = (newDescription) => {description = newDescription;}
 
-    const getNotes = () => {return notes;}
+    const getNotes = () => (notes);
     const setNotes = (newNote) => {notes = newNote;}
 
     const toggleComplete = () => {isComplete = isComplete ? false : true}
@@ -29,6 +26,7 @@ const Task = (initialTitle) => {
         dueDate = moment().endOf('day');
         //checkOverDue();
     }
+
     const getDueDate = () => {return dueDate;}
     const setDueDate = (momentObject) => {
         dueDate = momentObject;
@@ -45,8 +43,6 @@ const Task = (initialTitle) => {
     return {
         getTitle, 
         setTitle,
-        getDescription, 
-        setDescription, 
         getNotes, 
         setNotes, 
         toggleComplete, 
@@ -55,7 +51,8 @@ const Task = (initialTitle) => {
         setDueDate,
         removeDueDate, 
         getCompletionStatus, 
-        getOverDueStatus
+        getOverDueStatus, 
+        checkOverDue
     }
 
 };
