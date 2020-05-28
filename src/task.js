@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const task = (initialTitle) => {
+const Task = (initialTitle) => {
     //'use strict'
     //properties of task object
     let title = initialTitle;
@@ -8,8 +8,8 @@ const task = (initialTitle) => {
     let notes = ''
     let isComplete = false;
     let isOverDue = false;
-    let dueDate = null; //datetime object 
-    let priority = null;  //we need to create priority object
+    let dueDate = null; //when set is a moment object 
+    let priority = Priority();  //we need to create priority object
     let category = null; //we need to create category object
 
     //Create Read and Update Dekete functions
@@ -60,4 +60,20 @@ const task = (initialTitle) => {
 
 };
 
-export {task}
+const Priority = () => {
+    let priority = null; 
+    const types = ['p1','p2','p3']
+
+    const setPriority = priorityInt =>{
+        priority = types[priorityInt];
+    } 
+
+    const getPriority = () => {
+        return priority
+    }
+
+    return {setPriority, getPriority}
+}
+
+
+export {Task}

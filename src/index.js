@@ -1,7 +1,7 @@
-import {task} from './task'
+import {Task} from './task'
 import moment from 'moment'
 
-const sampleTask = task('get something done')
+const sampleTask = Task('get something done')
 
 console.log(sampleTask.getTitle())
 
