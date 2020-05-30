@@ -45,10 +45,10 @@ const TaskDisplay = () => {
         statusInput.setAttribute('type', 'checkbox');
         statusInput.setAttribute('value', 'None');
         statusInput.setAttribute('name', 'check');
-        statusInput.setAttribute('id', 'status');
+        statusInput.setAttribute('id', 'status'); //some string manipulation to got like status_index i.e. (status_0)
 
         let statusLabel = document.createElement("LABEL");
-        statusLabel.setAttribute('for','status');
+        statusLabel.setAttribute('for','status'); //some string manipulation to got like status_index i.e. (status_0)
 
         statusDiv.appendChild(statusInput);
         statusDiv.appendChild(statusLabel);
@@ -56,7 +56,7 @@ const TaskDisplay = () => {
         return statusDiv
     }
     
-    const displayTask = taskObject => {
+    const displayTask = taskObject => { //pass this index
         let taskDiv = createDiv('task')
         
         let titleDiv = displayTitle();
@@ -75,7 +75,7 @@ const TaskDisplay = () => {
     }
 
     const render = () => {
-        displayedTasks.forEach(e => {
+        displayedTasks.forEach(e => {  //change this to standard for loop and pass index here
             container.appendChild(displayTask(e));
         });
     }
