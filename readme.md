@@ -1,5 +1,11 @@
 # Ideas
 
+CRUD
+Create
+Read
+Update
+Delete
+
 ## Task Object (factory function)
 - title
 - dueDate
@@ -14,10 +20,6 @@ array of objects and other categories
 - color
 - tasks
 
-## Navigation (module)
-## NavigationDisplay (module)
-
-## Tasks (module)
 ## TasksDisplay (module)
 
 ## Tracker (module)

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {createDiv, appendChildren} from './helpers';
 
 const Task = (initialTitle) => {
     //'use strict'
@@ -38,7 +39,13 @@ const Task = (initialTitle) => {
         const now = moment();
         isOverDue = getDueDate().diff(now) < 0;
     }
+    
     const getOverDueStatus = () => (isOverDue)
+
+    const getPriority = () => (priority.getPriority());
+    const setPriority = priorityInt => {
+        priority.setPriority(priorityInt);
+    }
 
     return {
         getTitle, 
@@ -50,11 +57,12 @@ const Task = (initialTitle) => {
         getDueDate, 
         setDueDate,
         removeDueDate, 
-        getCompletionStatus, 
         getOverDueStatus, 
+        getCompletionStatus,
+        getPriority,
+        setPriority, 
         checkOverDue
     }
-
 };
 
 const Priority = () => {
@@ -71,6 +79,5 @@ const Priority = () => {
 
     return {setPriority, getPriority}
 }
-
 
 export {Task}

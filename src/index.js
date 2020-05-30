@@ -1,49 +1,43 @@
-import {Task} from './task'
-import {Category} from './category'
-//import moment from 'moment'
+// import {Task} from './task'
+// import {Category} from './category'
+import {appendChildren} from './helpers'
+import {TaskDisplay} from './displays'
 
-const sampleTask1 = Task('get something done')
-const sampleTask2 = Task('get something ELSE done')
-const sampleTask3 = Task('get something DONE')
-const sampleTask4 = Task('get something mmore done')
+import moment from 'moment'
 
 
-const testCat = Category('work');
+const taskDisplay = TaskDisplay();
 
-const testCat2 = Category('school');
+taskDisplay.addTask('Calculus and stuff')
+taskDisplay.addTask('Calcus and stuff')
 
-testCat.addTask(sampleTask1);
-testCat.addTask(sampleTask2);
+let task0 = taskDisplay.getTask(0)
+let task1 = taskDisplay.getTask(1)
 
-testCat2.addTask(sampleTask2);
-testCat2.addTask(sampleTask3);
-testCat2.addTask(sampleTask4);
+task0.setDueDate(moment().add(10,'days'))
+task1.setDueDate(moment().subtract(1,'days'))
 
+task0.setNotes('- 6 practice problems page 184\n- review derivatives\n- case 24 from applied financial math courspack')
+task1.setNotes('- 6 practice problems page 184\n- review derivatives\n- case 24 from applied financial math courspack')
+task0.setPriority(0);
+task1.setPriority(2);
 
-console.log(testCat.getTitle())
-console.log(testCat.color)
-console.log(testCat.getTasks())
-
-console.log(testCat.getTasks()[1].getTitle())
-
-
-console.log(testCat2.getTitle())
-console.log(testCat2.color)
-console.log(testCat2.getTasks())
-console.log(testCat2.getTasks()[0].getTitle())
-
-sampleTask2.setTitle('something different')
-
-console.log('we change a title')
+taskDisplay.render();
 
 
-console.log(testCat.getTitle())
-console.log(testCat.color)
-console.log(testCat.getTasks())
-console.log(testCat.getTasks()[1].getTitle())
+// //creating category
+// const work = Category('work');
+// const school = Category('school');
+// const projects = Category('projects')
 
+// work.addTasks([interviewPrep, workAndSchool])
+// school.addTasks([mathHomeWork, groupProjectIdeas, workAndSchool])
 
-console.log(testCat2.getTitle())
-console.log(testCat2.color)
-console.log(testCat2.getTasks())
-console.log(testCat2.getTasks()[0].getTitle())
+// // console.log(groupProjectIdeas.getTitle())
+// // console.log(displayTask(groupProjectIdeas))
+
+// const workTasks = school.getTasks()
+// const workDisplays = [];
+// workTasks.forEach(e => {workDisplays.push(displayTask(e))});
+
+// appendChildren(categoryList, workDisplays);
