@@ -3,52 +3,83 @@ import {Category} from './category'
 import {createDiv, appendChildren} from './helpers'
 
 
-const TaskDisplay = () => {
+const TaskDisplay = (() => {
     
     const container = document.getElementById('task-list')
 
 
     const displayedTasks = [];
 
-    const addTask = title => {
-        displayedTasks.push(Task(title));
+    const addTask = (title, description) => {
+        displayedTasks.push(Task(title, description));
     }
 
     const getTask = i => (displayedTasks[i]);
 
-
-    // const editNote = noteSring => {
-
-    // }
-
-
-    const displayTitle = () => {
-        return createDiv('title')
+    const displayTitle = taskObject => {
+        let div = createDiv('title', true)
+        div.addEventListener('input', e=>{
+            taskObject.setTitle(div.innerHTML)
+        });
+        return div
     }
 
-    const displayNotes = () => {
-        return createDiv('notes');
+    const displayNotes = taskObject => {
+        let div = createDiv('notes', true);
+        div.addEventListener('input', e=>{
+            taskObject.setNotes(div.innerHTML)
+        });
+        return div
     }
 
-    const displayDueDate = () => {
-        return createDiv('duedate');
+    const displayDueDate = (taskObject,i) => {
+        let dateDiv = createDiv('duedate');
+        let dateId = ['duedate',i].join('-');
+
+        let label = document.createElement("LABEL");
+        label.setAttribute('for',dateId); 
+
+        let dateInput = document.createElement('INPUT');
+        dateInput.setAttribute('type', 'date')
+        dateInput.setAttribute('id', dateId)
+        dateInput.classList.add('date')
+
+        let timeId = ['duetime',i].join('-');
+
+        let timelabel = document.createElement("LABEL");
+        timelabel.setAttribute('for',timeId); 
+        timelabel.innerHTML = 'Due:'
+
+        let timeInput = document.createElement('INPUT');
+        timeInput.setAttribute('type', 'time')
+        timeInput.setAttribute('id', timeId)
+        timeInput.classList.add('time')
+
+        dateDiv.appendChild(timelabel)
+        dateDiv.appendChild(timeInput)
+
+        dateDiv.appendChild(label)
+        dateDiv.appendChild(dateInput)
+
+        return dateDiv       
     }
 
     const displayPriority = () => {
         return createDiv('priority');
     }
 
-    const displayStatus = () => {
-        let statusDiv = createDiv('status');
-        
+    const displayStatus = i => {
+        let statusDiv = createDiv('status');        
+        let statusId = ['status',i].join('-')
+
         let statusInput = document.createElement('INPUT');
         statusInput.setAttribute('type', 'checkbox');
         statusInput.setAttribute('value', 'None');
         statusInput.setAttribute('name', 'check');
-        statusInput.setAttribute('id', 'status'); //some string manipulation to got like status_index i.e. (status_0)
+        statusInput.setAttribute('id', statusId); 
 
         let statusLabel = document.createElement("LABEL");
-        statusLabel.setAttribute('for','status'); //some string manipulation to got like status_index i.e. (status_0)
+        statusLabel.setAttribute('for',statusId); 
 
         statusDiv.appendChild(statusInput);
         statusDiv.appendChild(statusLabel);
@@ -56,32 +87,47 @@ const TaskDisplay = () => {
         return statusDiv
     }
     
-    const displayTask = taskObject => { //pass this index
+    const displayTask = (taskObject,i) => { 
         let taskDiv = createDiv('task')
         
-        let titleDiv = displayTitle();
-        let notesDiv = displayNotes();
-        let dueDateDiv = displayDueDate();  
-        let statusDiv = displayStatus();
+        let titleDiv = displayTitle(taskObject);
+        let notesDiv = displayNotes(taskObject);
+        let dueDateDiv = displayDueDate(taskObject, i);  
+        let statusDiv = displayStatus(i);
         let priorityDiv = displayPriority();
-        
+
         titleDiv.innerHTML = taskObject.getTitle();
         notesDiv.innerHTML = taskObject.getNotes();
-        dueDateDiv.innerHTML = taskObject.getDueDate();
-        priorityDiv.innerHTML = taskObject.getPriority();
+
+        let dueDate = new Date(taskObject.getDueDate().format('LLL'))
+
+        dueDateDiv.querySelector('.time').valueAsDate = dueDate;
+        dueDateDiv.querySelector('.date').valueAsDate = dueDate;
 
         appendChildren(taskDiv, [statusDiv, titleDiv, notesDiv, dueDateDiv, priorityDiv]); 
         return taskDiv; 
     }
 
+    const displayNewTaskButton = () => {
+        let newTask = createDiv('newTaskButton');
+        newTask.innerHTML = '+';
+        newTask.addEventListener('click', e=>{
+            addTask('task', 'initial description')
+            render()
+        })
+        return newTask;
+    }
+
     const render = () => {
-        displayedTasks.forEach(e => {  //change this to standard for loop and pass index here
-            container.appendChild(displayTask(e));
-        });
+        container.innerHTML=''
+        for (let i = 0; i < displayedTasks.length; i++) {
+            container.appendChild(displayTask(displayedTasks[i], i))    
+        }
+        container.appendChild(displayNewTaskButton())
     }
 
     return {render, addTask, getTask}
-}
+})();
 
 
 

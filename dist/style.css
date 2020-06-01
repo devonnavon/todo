@@ -7,26 +7,35 @@ img {
   margin: 50px;
   display: grid;
   grid-template-columns: 40px auto 50px ;
-  grid-template-rows: 25px 40px auto;
+  grid-template-rows: 15px 40px auto;
   grid-gap: 20px;
   grid-template-areas:
       '. pricatdue pricatdue'
       'status title . '
-      '. notes edit'
-
+      '. notes edit';
+  border: 1px solid rgba(0, 0, 0, 0.27);
+  border-radius: 15px;
+  -webkit-box-shadow: 5px 7px 10px -7px rgba(0,0,0,0.55); 
+  box-shadow: 5px 7px 10px -7px rgba(0,0,0,0.55);
+  font-family: 'Roboto', sans-serif;
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .task > .title {
   grid-area: title;
   margin: auto 0;
-  font-size: large;
-  background-color: pink;
+  font-weight: 700;
+  font-size: 25px;
+  border-bottom:.5px solid rgba(0, 0, 0, 0.27) ;
 
 }
 
 .task > .notes {
   grid-area: notes;
-  background-color: red;
+  justify-self: start;
+  margin-top: -15px;
+  padding-bottom: 5px;
+  color: gray
 
 
 
@@ -37,6 +46,7 @@ img {
   background-color: blue;
   justify-self: end;
   position: relative;
+  font-size: small;
 
 
 }
@@ -46,6 +56,8 @@ img {
   background-color: blueviolet;
   justify-self: end;
   position: relative;
+  font-size: small;
+
 
 }
 
@@ -54,19 +66,19 @@ img {
   background-color: purple;
   justify-self: end;
   position: relative;
+  font-size: small;
+
 
 
 }
-
-
-
 
 
 .task > .status {
     grid-area: status;
     width: 20px;
   position: relative;
-  margin: auto 0;
+  margin: auto;
+  margin-left: 15px;
   }
   .task > .status label {
     width: 20px;
@@ -139,7 +151,7 @@ img {
 
 #task-list {
     grid-area: task;
-    background-color: pink;
+    background-color: white;
 }
 
 #category-list {

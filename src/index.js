@@ -6,13 +6,11 @@ import {TaskDisplay} from './displays'
 import moment from 'moment'
 
 
-const taskDisplay = TaskDisplay();
+TaskDisplay.addTask('Calculus and stuff')
+TaskDisplay.addTask('Calcus and stuff')
 
-taskDisplay.addTask('Calculus and stuff')
-taskDisplay.addTask('Calcus and stuff')
-
-let task0 = taskDisplay.getTask(0)
-let task1 = taskDisplay.getTask(1)
+let task0 = TaskDisplay.getTask(0)
+let task1 = TaskDisplay.getTask(1)
 
 task0.setDueDate(moment().add(10,'days'))
 task1.setDueDate(moment().subtract(1,'days'))
@@ -22,7 +20,7 @@ task1.setNotes('- 6 practice problems page 184\n- review derivatives\n- case 24 
 task0.setPriority(0);
 task1.setPriority(2);
 
-taskDisplay.render();
+TaskDisplay.render();
 
 
 // //creating category

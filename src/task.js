@@ -1,12 +1,11 @@
 import moment from 'moment';
 import {createDiv, appendChildren} from './helpers';
 
-const Task = (initialTitle) => {
+const Task = (initialTitle, initialDescription) => {
     //'use strict'
     //properties of task object
     let title = initialTitle;
-    let description = '';
-    let notes = ''
+    let notes = initialDescription;
     let isComplete = false;
     let isOverDue = false;
     let dueDate = null; //when set is a moment object 
