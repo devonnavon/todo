@@ -18,7 +18,7 @@ img {
   grid-template-rows: 10px 40px auto;
   grid-gap: 20px;
   grid-template-areas:
-      '. pricatdue pricatdue'
+      'cat pricatdue pricatdue'
       'status title . '
       '. notes edit';
   border: 1px solid rgba(0, 0, 0, 0.27);
@@ -27,6 +27,7 @@ img {
   box-shadow: 5px 7px 10px -7px rgba(0,0,0,0.55);
   font-family: 'Roboto', sans-serif;
   background-color: rgba(0, 0, 0, 0.03);
+  justify-self: start;
 }
 
 .task > .title {
@@ -35,14 +36,15 @@ img {
   font-weight: 700;
   font-size: 25px;
   border-bottom:.5px solid rgba(0, 0, 0, 0.27) ;
-  margin-top: -10px;
+  margin-top: 5px;
+  padding-bottom: 5px;
 
 }
 
 .task > .notes {
   grid-area: notes;
   justify-self: start;
-  margin-top: -30px;
+  margin-top: -10px;
   padding-bottom: 5px;
   color: gray
 
@@ -140,6 +142,59 @@ img {
   }
 
 
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  width: 150px;
+  height: 25px;
+  border-radius: 10px 0px 0px 0px;
+  position: relative;
+  display: block;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.taskCategory {
+  position: relative;
+  padding-bottom: 20px;
+  grid-area: cat;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content div {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content div:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.taskCategory:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.taskCategory:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+
   /* <section title=".squaredThree">
   <!-- .squaredThree -->
   <div class="squaredThree">
@@ -149,6 +204,9 @@ img {
   <!-- end .squaredThree -->
 </section> */
 
+.newTaskButton{
+  padding-left: 30px;
+}
 
 
 
@@ -156,9 +214,9 @@ img {
 #container {
     margin: 50px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1/2fr 1fr 1fr;
     grid-template-rows: auto;
-    grid-gap: 20px;
+    grid-gap: 5px;
     grid-template-areas:
         'header header header'
         'category task task'
@@ -174,14 +232,36 @@ img {
 #task-list {
     grid-area: task;
     background-color: white;
+    align-self: start;
 }
 
 #category-list {
     grid-area: category;
-     background-color: rgb(169, 100, 234);
+    width: 250px;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    border-radius: 15px;
+    -webkit-box-shadow: 5px 7px 10px -7px rgba(0,0,0,0.55); 
+    box-shadow: 5px 7px 10px -7px rgba(0,0,0,0.55);
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(0, 0, 0, 0.03);
+    justify-self: end;
+}
+
+#category-list > .category {
+  display: flex;
+  font-family: 'Roboto';
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+#category-list > .category > .color{
+  cursor: pointer;
+  padding-right: 10px;
 }
 
 #footer {
     grid-area: footer;
     background-color: rgb(172, 231, 64);
 }
+

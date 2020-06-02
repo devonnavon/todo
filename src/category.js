@@ -13,13 +13,17 @@ const Category = (categoryTitle) => {
     const addTask = task => {relatedTasks.push(task)};
     const addTasks = taskList => {taskList.forEach(e => {addTask(e)})};
 
+    const getColor = () => (color);
+    const newColor = () => {color = randomColor();}
+
     return {
         getTitle,
         setTitle,
         getTasks,
         addTask,
         addTasks,
-        color}
+        getColor, 
+        newColor}
 }
 
 export {Category}

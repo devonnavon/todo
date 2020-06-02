@@ -1,8 +1,3 @@
-// import {Task} from './task'
-// import {Category} from './category'
-import {TaskDisplay} from './displays'
+import {start} from './displays'
 
-
-TaskDisplay.render();
-
-
+start()

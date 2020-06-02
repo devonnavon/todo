@@ -42,6 +42,11 @@ const Task = (initialTitle, initialDescription) => {
         priority.setPriority();
     }
 
+    const getCategory = () => (category)
+    const setCategory = (categoryObject) => {
+        category = categoryObject;
+    }
+
     return {
         getTitle, 
         setTitle,
@@ -55,7 +60,9 @@ const Task = (initialTitle, initialDescription) => {
         getCompletionStatus,
         getPriority,
         setPriority, 
-        checkOverDue
+        checkOverDue, 
+        getCategory, 
+        setCategory
     }
 };
 

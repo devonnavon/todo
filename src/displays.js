@@ -12,8 +12,6 @@ const TaskDisplay = (() => {
         displayedTasks.push(Task(title, description));
     }
 
-    const getTask = i => (displayedTasks[i]);
-
     const displayTitle = taskObject => {
         let div = createDiv('title', true)
         div.addEventListener('input', e=>{
@@ -90,6 +88,36 @@ const TaskDisplay = (() => {
 
         return statusDiv
     }
+
+    const displayCategory = taskObject => {
+        let categoryDiv = createDiv('taskCategory');
+        let dropButton = document.createElement('BUTTON')
+        dropButton.classList.add('dropbtn');
+        if(taskObject.getCategory()===null){dropButton.innerHTML = 'no category'}
+        else {
+            dropButton.innerHTML=taskObject.getCategory().getTitle();
+            dropButton.style.backgroundColor = taskObject.getCategory().getColor();
+        }
+        
+        let currentCats = CategoryDisplay.getDisplayedCategories();
+        let content = createDiv('dropdown-content');
+        currentCats.forEach(e=>{
+            let contentElement = document.createElement('div');
+            contentElement.innerHTML = e.getTitle();
+            contentElement.style.backgroundColor = e.getColor();
+            contentElement.addEventListener('click', elem=>{
+                dropButton.innerHTML = e.getTitle(); 
+                dropButton.style.backgroundColor = e.getColor();
+                taskObject.setCategory(e);
+                e.addTask(taskObject);
+            });
+            content.appendChild(contentElement);
+            
+        });
+        categoryDiv.appendChild(dropButton);
+        categoryDiv.appendChild(content);
+        return categoryDiv
+    }
     
     const displayTask = (taskObject,i) => { 
         taskObject.checkOverDue();
@@ -98,7 +126,8 @@ const TaskDisplay = (() => {
         
         if(taskObject.getOverDueStatus()){taskDiv.classList.add('overdue')}
         else {taskDiv.classList.remove('overdue')}
-
+        
+        let categoryDiv = displayCategory(taskObject);
         let titleDiv = displayTitle(taskObject);
         let notesDiv = displayNotes(taskObject);
         let dueDateDiv = displayDueDate(taskObject, i);  
@@ -111,7 +140,8 @@ const TaskDisplay = (() => {
         let dueDate = taskObject.getDueDate().format('YYYY-MM-DD')
         dueDateDiv.querySelector('.date').value = dueDate;
 
-        appendChildren(taskDiv, [statusDiv, titleDiv, notesDiv, dueDateDiv, priorityDiv]); 
+        appendChildren(taskDiv, [categoryDiv, statusDiv, titleDiv, notesDiv, dueDateDiv, priorityDiv]); 
+        appendChildren(taskDiv, [statusDiv, titleDiv, notesDiv, categoryDiv,dueDateDiv, priorityDiv]); 
         return taskDiv; 
     }
 
@@ -139,6 +169,74 @@ const TaskDisplay = (() => {
     return {render}
 })();
 
+const CategoryDisplay = (()=>{
+    const displayedCategories = [];
+    const container = document.getElementById('category-list');
 
+    const getDisplayedCategories = () => (displayedCategories)
 
-export {TaskDisplay}
+    const addCategory = (title) => {
+        displayedCategories.push(Category(title));
+    }
+
+    const displayTitle = categoryObject => {
+        const div = createDiv('title', true);
+        div.addEventListener('input', e=>{
+            categoryObject.setTitle(div.innerHTML);
+            TaskDisplay.render();
+        })
+        div.innerHTML = categoryObject.getTitle();
+        return div
+    }
+
+    const displayColor = categoryObject => {
+        const colorDiv = createDiv('color')
+        colorDiv.style.color = categoryObject.getColor();
+        colorDiv.innerHTML = '∆'
+        colorDiv.addEventListener('click', e=> {
+            categoryObject.newColor();
+            colorDiv.style.color = categoryObject.getColor();
+            TaskDisplay.render();
+        })
+        return colorDiv
+    }
+
+    const displayCategory = categoryObject => {
+        const categoryDiv = createDiv('category');
+        
+        const colorDiv = displayColor(categoryObject);
+        const titleDiv = displayTitle(categoryObject);
+
+        appendChildren(categoryDiv, [colorDiv, titleDiv])
+        return categoryDiv;
+    }
+
+    const displayNewCategoryButton = () => {
+        let newCat = createDiv('newCategoryButton');
+        newCat.innerHTML = '+';
+        newCat.addEventListener('click', e=>{
+            addCategory('New Category')
+            render()
+            TaskDisplay.render();
+        })
+        return newCat;
+    }
+
+    const render = () => {
+        container.innerHTML='';
+        if (displayedCategories.length===0) addCategory('King Shit');
+        for (let i = 0; i < displayedCategories.length; i++) {
+            container.appendChild(displayCategory(displayedCategories[i]))    
+        }
+        container.appendChild(displayNewCategoryButton());
+    }
+
+    return {render, getDisplayedCategories}
+})();
+
+const start = () => {
+    CategoryDisplay.render();
+    TaskDisplay.render();
+}
+
+export {start}
