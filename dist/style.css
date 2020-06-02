@@ -2,12 +2,20 @@ img {
     width: 75%;
 }
 
+.overdue {
+  color: red;
+}
+
+.overdue > .duedate > input {
+  color: red;
+}
+
 
 .task {
   margin: 50px;
   display: grid;
   grid-template-columns: 40px auto 50px ;
-  grid-template-rows: 15px 40px auto;
+  grid-template-rows: 10px 40px auto;
   grid-gap: 20px;
   grid-template-areas:
       '. pricatdue pricatdue'
@@ -27,13 +35,14 @@ img {
   font-weight: 700;
   font-size: 25px;
   border-bottom:.5px solid rgba(0, 0, 0, 0.27) ;
+  margin-top: -10px;
 
 }
 
 .task > .notes {
   grid-area: notes;
   justify-self: start;
-  margin-top: -15px;
+  margin-top: -30px;
   padding-bottom: 5px;
   color: gray
 
@@ -46,32 +55,45 @@ img {
   background-color: blue;
   justify-self: end;
   position: relative;
-  font-size: small;
+  font-size: medium;
+  margin-top: 10px;
+  margin-right: 25px;
+  margin-left: 25px;
+  align-self: bottom;
+  cursor: pointer;
+
 
 
 }
 
 .task > .category {
   grid-area: pricatdue;
-  background-color: blueviolet;
+  background-color: red;
   justify-self: end;
   position: relative;
   font-size: small;
+
 
 
 }
 
 .task > .duedate {
+  width: auto;
+  height: 50px;
   grid-area: pricatdue;
-  background-color: purple;
   justify-self: end;
   position: relative;
   font-size: small;
-
-
+  align-self: bottom;
+  margin-top: 10px;
+  margin-right: 45px;
 
 }
 
+.task > .duedate > input {
+  border: 1px solid rgba(0, 0, 0, 0.27);
+  border-radius: 0px 10px 10px 0px;
+}
 
 .task > .status {
     grid-area: status;

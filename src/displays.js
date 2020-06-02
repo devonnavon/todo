@@ -6,8 +6,6 @@ import {createDiv, appendChildren} from './helpers'
 const TaskDisplay = (() => {
     
     const container = document.getElementById('task-list')
-
-
     const displayedTasks = [];
 
     const addTask = (title, description) => {
@@ -38,25 +36,25 @@ const TaskDisplay = (() => {
 
         let label = document.createElement("LABEL");
         label.setAttribute('for',dateId); 
+        label.innerHTML = 'DUE  '
 
         let dateInput = document.createElement('INPUT');
         dateInput.setAttribute('type', 'date')
         dateInput.setAttribute('id', dateId)
+        dateInput.setAttribute('value', 'None')
         dateInput.classList.add('date')
 
-        let timeId = ['duetime',i].join('-');
+        dateInput.addEventListener('input',e=>{
+            taskObject.setDueDate(dateInput.value);
+            taskObject.checkOverDue()
+            if (taskObject.getOverDueStatus()) {e.target.parentNode.parentNode.classList.add('overdue')}
+            else {
+                e.target.parentNode.parentNode.classList.remove('overdue')
+                e.target.parentNode.parentNode.classList.add('task')
+            }
 
-        let timelabel = document.createElement("LABEL");
-        timelabel.setAttribute('for',timeId); 
-        timelabel.innerHTML = 'Due:'
+        });
 
-        let timeInput = document.createElement('INPUT');
-        timeInput.setAttribute('type', 'time')
-        timeInput.setAttribute('id', timeId)
-        timeInput.classList.add('time')
-
-        dateDiv.appendChild(timelabel)
-        dateDiv.appendChild(timeInput)
 
         dateDiv.appendChild(label)
         dateDiv.appendChild(dateInput)
@@ -64,8 +62,14 @@ const TaskDisplay = (() => {
         return dateDiv       
     }
 
-    const displayPriority = () => {
-        return createDiv('priority');
+    const displayPriority = (taskObject) => {
+        let div = createDiv('priority');
+        div.addEventListener('click',e=>{
+            taskObject.setPriority()
+            div.innerHTML = taskObject.getPriority();
+        })
+        div.innerHTML = taskObject.getPriority();
+        return div
     }
 
     const displayStatus = i => {
@@ -88,21 +92,24 @@ const TaskDisplay = (() => {
     }
     
     const displayTask = (taskObject,i) => { 
+        taskObject.checkOverDue();
+        
         let taskDiv = createDiv('task')
         
+        if(taskObject.getOverDueStatus()){taskDiv.classList.add('overdue')}
+        else {taskDiv.classList.remove('overdue')}
+
         let titleDiv = displayTitle(taskObject);
         let notesDiv = displayNotes(taskObject);
         let dueDateDiv = displayDueDate(taskObject, i);  
         let statusDiv = displayStatus(i);
-        let priorityDiv = displayPriority();
+        let priorityDiv = displayPriority(taskObject);
 
         titleDiv.innerHTML = taskObject.getTitle();
         notesDiv.innerHTML = taskObject.getNotes();
 
-        let dueDate = new Date(taskObject.getDueDate().format('LLL'))
-
-        dueDateDiv.querySelector('.time').valueAsDate = dueDate;
-        dueDateDiv.querySelector('.date').valueAsDate = dueDate;
+        let dueDate = taskObject.getDueDate().format('YYYY-MM-DD')
+        dueDateDiv.querySelector('.date').value = dueDate;
 
         appendChildren(taskDiv, [statusDiv, titleDiv, notesDiv, dueDateDiv, priorityDiv]); 
         return taskDiv; 
@@ -112,13 +119,16 @@ const TaskDisplay = (() => {
         let newTask = createDiv('newTaskButton');
         newTask.innerHTML = '+';
         newTask.addEventListener('click', e=>{
-            addTask('task', 'initial description')
+            addTask('What do you have to do?', 'Add a description of your task here...')
             render()
         })
         return newTask;
     }
 
     const render = () => {
+        if (displayedTasks.length==0){
+            addTask('What do you have to do?', 'Add a description of your task here...')
+        }
         container.innerHTML=''
         for (let i = 0; i < displayedTasks.length; i++) {
             container.appendChild(displayTask(displayedTasks[i], i))    
@@ -126,7 +136,7 @@ const TaskDisplay = (() => {
         container.appendChild(displayNewTaskButton())
     }
 
-    return {render, addTask, getTask}
+    return {render}
 })();
 
 

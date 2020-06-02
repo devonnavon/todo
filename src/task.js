@@ -1,5 +1,6 @@
-import moment from 'moment';
-import {createDiv, appendChildren} from './helpers';
+import moment from 'moment-timezone';
+import {Category} from './category'
+
 
 const Task = (initialTitle, initialDescription) => {
     //'use strict'
@@ -8,7 +9,7 @@ const Task = (initialTitle, initialDescription) => {
     let notes = initialDescription;
     let isComplete = false;
     let isOverDue = false;
-    let dueDate = null; //when set is a moment object 
+    let dueDate = moment().endOf('day'); //when set is a moment object 
     let priority = Priority();  //we need to create priority object
     let category = null; //we need to create category object
 
@@ -22,28 +23,23 @@ const Task = (initialTitle, initialDescription) => {
     const toggleComplete = () => {isComplete = isComplete ? false : true}
     const getCompletionStatus = () => (isComplete)
 
-    const addDueDate = () => {
-        dueDate = moment().endOf('day');
-        //checkOverDue();
-    }
-
-    const getDueDate = () => {return dueDate;}
-    const setDueDate = (momentObject) => {
-        dueDate = momentObject;
+    const getDueDate = () => (dueDate);
+    const setDueDate = (dateString) => {
+        dueDate = moment(dateString);
         checkOverDue();
     }
     const removeDueDate = () => {dueDate = null;}
 
     const checkOverDue = () => {
         const now = moment();
-        isOverDue = getDueDate().diff(now) < 0;
+        isOverDue = getDueDate().endOf('day').diff(now) < 0;
     }
     
     const getOverDueStatus = () => (isOverDue)
 
     const getPriority = () => (priority.getPriority());
-    const setPriority = priorityInt => {
-        priority.setPriority(priorityInt);
+    const setPriority = () => {
+        priority.setPriority();
     }
 
     return {
@@ -52,7 +48,6 @@ const Task = (initialTitle, initialDescription) => {
         getNotes, 
         setNotes, 
         toggleComplete, 
-        addDueDate, 
         getDueDate, 
         setDueDate,
         removeDueDate, 
@@ -65,15 +60,16 @@ const Task = (initialTitle, initialDescription) => {
 };
 
 const Priority = () => {
-    let priority = null; 
-    const types = ['p1','p2','p3']
+    let priority = 0; 
+    const types = ['!','!!','!!!']
 
-    const setPriority = priorityInt =>{
-        priority = types[priorityInt];
+    const setPriority = () =>{
+        priority++;
+        if(priority>2) priority=0;
     } 
 
     const getPriority = () => {
-        return priority
+        return types[priority]
     }
 
     return {setPriority, getPriority}
