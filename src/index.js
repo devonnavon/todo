@@ -1,3 +1,3 @@
-import {start} from './displays'
+import { start } from './displays';
 
-start()
+start();
