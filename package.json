@@ -22,7 +22,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.31",
     "randomcolor": "^0.5.4"
   }
